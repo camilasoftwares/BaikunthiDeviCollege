@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2ff37f7661b14e7e84446e26044ba82b" Name="Diagram1" ZoomLevel="58">
+        <EntityTypeShape EntityType="CollegeMSModel.AccountReceivable" Width="1.5" PointX="17.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.AccountReceivableType" Width="1.5" PointX="15" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.AddressDetail" Width="1.5" PointX="11.25" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.AddressType" Width="1.5" PointX="9" PointY="38.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.Category" Width="1.5" PointX="6.75" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.Cours" Width="1.5" PointX="3.75" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.CourseSubject" Width="1.5" PointX="6" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.Department" Width="1.5" PointX="6.75" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.Designation" Width="1.5" PointX="6.75" PointY="39.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.DocumentType" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.DocVarificationStatu" Width="1.5" PointX="3.75" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.EducationDetail" Width="1.5" PointX="11.25" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.FeeStatu" Width="1.5" PointX="3.75" PointY="40.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.IlligibilityDocument" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.IlligibilityExamination" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.LedgerAccount" Width="1.5" PointX="15" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.LedgerAccountAppliedTo" Width="1.5" PointX="12.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.MenuAndSubMenu" Width="1.5" PointX="12" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.MeritList" Width="1.5" PointX="6" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.MessageType" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.ModeOfPayment" Width="1.5" PointX="15" PointY="35.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.Organization" Width="1.5" PointX="0.75" PointY="28.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.ParentDetail" Width="1.5" PointX="14.25" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.PaymentTransaction" Width="1.5" PointX="17.25" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.Prospectus" Width="1.5" PointX="3" PointY="30.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.Registration" Width="1.5" PointX="6" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.RegistrationStatu" Width="1.5" PointX="3.75" PointY="51.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.Relation" Width="1.5" PointX="12" PointY="42.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.RequiredDocument" Width="1.5" PointX="3" PointY="47" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.ResultMaster" Width="1.5" PointX="9" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.StudentCours" Width="1.5" PointX="11.25" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.TransationType" Width="1.5" PointX="15" PointY="40.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.UserRight" Width="1.5" PointX="14.25" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.User" Width="1.5" PointX="9" PointY="27.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.UserStatu" Width="1.5" PointX="6.75" PointY="43.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CollegeMSModel.UserType" Width="1.5" PointX="6.75" PointY="48.25" IsExpanded="true" />
+        <AssociationConnector Association="CollegeMSModel.FK_AccountReceivable_AccountReceivableType" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_AccountReceivable_LedgerAccount" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_AddressDetails_AddressType" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_AddressDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Users_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_CourseSubject_Courses" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_MeritList_Courses" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Registration_Courses" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_StudentCourses_Courses" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Users_Department" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Users_Designation" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Registration_DocVarificationStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_EducationDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Registration_FeeStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_LedgerAccount_LedgerAccountAppliedTo" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_PaymentTransaction_LedgerAccount" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_UserRights_MenuAndSubMenu" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_PaymentTransaction_ModeOfPayment" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Prospectus_Organization" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Registration_Organization" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_RequiredDocument_Courses" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Users_Organization" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_ParentDetails_Relation" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_ParentDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_PaymentTransaction_TransationType" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_PaymentTransaction_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Prospectus_Registration" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Registration_RegistrationStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_StudentCourses_ResultMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_StudentCourses_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_UserRights_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_UserRights_UserTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Users_UserStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="CollegeMSModel.FK_Users_UserTypes" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CollegeMSModel.Upload" Width="1.5" PointX="0.75" PointY="7.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

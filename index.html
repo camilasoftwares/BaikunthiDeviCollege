@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Baikunthi Devi Kanya Mahavidyalaya, Agra</title>
+<link rel="shortcut icon" href="images/favicon.jpg">
+<link href="CSS/style.css" rel="stylesheet" type="text/css" />
+<link href="CSS/menu.css" rel="stylesheet" type="text/css" />
+<script src="js/prefixfree.min.js"></script>
+
+</head>
+
+<body>
+<div class="wrapper row1">
+    <header id="header"> 
+      <!-- ################################################################################################ -->
+      <div id="logo" class="">
+        <h1><a href="index.html"><img src="images/logo.jpg" /></a></h1>
+      </div>
+      
+     <nav id="mainav"> 
+     <center><h2><font  color="#FFFFFF"><strong>BAIKUNTHI DEVI KANYA MAHAVIDYALAYA, AGRA<br/><br/>Online Portal</strong></font></h2></center>
+     <a id="resp-menu" class="responsive-menu" href="#"><i class="fa fa-reorder"></i> Menu</a>
+  <ul class="menu">
+  	<li><a  href="form.html">Home</a></li>
+    <li><a  href="#">About Us</a>
+      <ul class="sub-menu">
+        <li><a href="#">History</a></li>
+        <li><a href="#">Why Us</a></li>
+        <li><a href="#">Vision & Mission</a></li>
+        <li><a href="#">Advisory Council</a></li>
+        <li><a href="#">Faculty</a></li>
+        <li><a href="#">Body Member</a></li>
+      </ul>
+    </li>
+    <li><a  href="#">Admissions</a>
+      <ul class="sub-menu">
+        <li><a href="form.html">Online Admissin</a></li>
+        <li><a href="#">Anti Ragging</a></li>
+        <li><a href="#">Scholarship </a></li>
+        <li><a href="#">FAQs</a></li>
+      </ul>
+    </li>
+    <li><a  href="#">Life @ Baikunthi Devi</a>
+      <ul class="sub-menu">
+        <li><a href="#">Campus Buzz</a></li>
+        <li><a href="#">Photo gallery</a></li>
+        <li><a href="#">Societies</a></li>
+        <li><a href="#">News</a></li>
+      </ul>
+    </li>	
+    <li><a  href="#">Courses</a>
+      <ul class="sub-menu">
+        <li><a href="#">Course Offered</a></li>
+      </ul>
+    </li>
+    <li><a  href="#">Facilities</a>
+      <ul class="sub-menu">
+        <li><a href="#">General Infra</a></li>
+        <li><a href="#">Learning Infra</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Contact Us</a></li>
+    <li><a href="#">Pay Online Fee</a></li>
+  </ul>
+</nav>
+ 
+</header>
+</div>
+
+<div class="wrapper row3">
+  <main class="hoc container clear"> 
+    
+   
+   <div class="content"> 
+    
+    
+    <p>Baikunthi Devi Kanya Mahavidyalaya, Agra, established in 1967 with the motto of "Tamaso ma Jyotirgamaya", is catering meaningfully to the educational needs of the women of Agra region. </p>
+    <p>The College owes its existence to the efforts of Late. Shri Dataram Parolia, an industrialist of Kolkata, Sri Kisan Lal Ji Gupta Businessman Of Agra, Sri Raghuveer Prasad Gupta Business man Agra, Sri Laxmi Narrayan Gupta, Business man Agra, and Shri Maveer Prasad Doneria Business Man Agra.</p> 
+    <p>Started with only 33 students the College is now a full fledged women’s College with about 3500 regular students and 1000 students in self-financing courses on its roll and five faculties of Arts, Science, Fine Arts, Education , Commerce, BBA, MA (Home Science, Economics)</p>
+    
+    
+    </div>
+    
+    <div class="clear"></div>
+  </main>
+</div>
+
+<div class="wrapper">
+<footer>
+
+<div class="one_third first">
+<h3>College Glory</h3>
+Baikunthi Devi Kanya Mahavidhyalaya is affiliated to Dr. Bhim Rao Ambedkar University Agra (Formally Agra University)
+Date of establishment of the College : 1st July 1967
+Dates OF UGC Recognition: Under 2(f) - 13th Aug 1968 Under 12(B) - NA
+
+</div>
+<div class="one_third">
+<h3>Admissions</h3>
+<a href="#">Admission Helpline</a><hr/>
+<a href="#">Download forms</a><hr/>
+<a href="#">Anti Ragging Policy</a><hr/>
+<a href="#">Scholarships</a><hr/>
+<a href="#">FAQs</a>
+</div>
+<div class="one_third">
+<h3>Contact @ Baikunthi</h3>
+<a href="#">Contact Us</a><hr/>
+<a href="#">Career</a><hr/>
+<a href="#">Enquiry</a><hr/>
+<a href="#">Feedback</a>
+</div>
+
+</footer>
+
+</div>
+<div class="wrapper">
+<center><p>Copyright © 2017 <a href="http://bdkmvagra.co.in/" target="_blank">www.bdkmvagra.co.in</a> Design By <a href="http://frolicworld.com/" target="_blank">Frolicworld.com</a></p></center>
+</div>
+
+
+<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script>
+$(document).ready(function(){ 
+	var touch 	= $('#resp-menu');
+	var menu 	= $('.menu');
+ 
+	$(touch).on('click', function(e) {
+		e.preventDefault();
+		menu.slideToggle();
+	});
+	
+	$(window).resize(function(){
+		var w = $(window).width();
+		if(w > 767 && menu.is(':hidden')) {
+			menu.removeAttr('style');
+		}
+	});
+	
+});
+</script>
+</body>
+</html>
