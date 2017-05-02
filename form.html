@@ -1,0 +1,969 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Baikunthi Devi Kanya Mahavidyalaya, Agra</title>
+    <link rel="shortcut icon" href="images/favicon.jpg" />
+    <link href="CSS/style.css" rel="stylesheet" type="text/css" />
+    <link href="CSS/menu.css" rel="stylesheet" type="text/css" />
+    <script src="js/prefixfree.min.js"></script>
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+    <script src="Scripts/respond.js"></script>
+    <script src="Scripts/modernizr-2.6.2.js"></script>
+    <style>
+        .quadrat {
+	
+	border-color: #e50000;
+
+	border-width: 2px;
+	border-style: solid;
+}
+
+    </style>
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+                $("#filePicker").change(function () {
+                    if (filePicker.files && filePicker.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $('#imgStudent').attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(filePicker.files[0]);
+                    }
+                });
+
+                $('#btnFetchExisting').click(function () {
+                    event.preventDefault();
+                    data = {};
+                    data.RegistrationId = $('#txtExistingRegistrationId').val();
+
+                    $.ajax({
+                        url: "CollegeService.svc/GetRegistration",
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            jsonResult = JSON.parse(result.d);
+                            setValue(jsonResult);
+                        },
+                        error: function (data) {
+                            alert('Error! - Getting Registration');
+                        }
+                    });
+
+                });
+                $('#btnSubmit').click(function () {
+                    event.preventDefault();
+                    data = {};
+                    if (validateInput(data)) {
+                        $('#btnSubmit').hide();
+                        $('#btnReset').hide();
+                        $.ajax({
+                            url: "CollegeService.svc/SaveRegistration",
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (result) {
+                                jsonResult = JSON.parse(result.d);
+                                uploadImage(jsonResult.ID, function () { notifyMsg('Registration Saved successfully.', 'success', function () { redirect('form1.html'); }); });                                
+                            },
+                            error: function (data) {
+                                alert('Error! - SaveRegistration');
+                                $('#btnSubmit').show();
+                                $('#btnReset').show();
+                            }
+                        });
+                    }
+                });
+
+                $.ajax({
+                    url: "CollegeService.svc/GetCourses",
+                    type: "POST",
+                    success: function (result) {
+                        jsonResult = JSON.parse(result.d);
+                        $("#optcourseappliedfor").append($('<option></option>').val('').html("Please select Course"));
+                        $.each(jsonResult, function (key, value) {
+                            $("#optcourseappliedfor").append($('<option></option>').val(value["ID"]).html(value["Name"]));
+                        });
+
+                    }
+                });
+
+                $.ajax({
+                    url: "CollegeService.svc/GetCategories",
+                    type: "POST",
+                    success: function (result) {
+                        jsonResult = JSON.parse(result.d);
+                        $("#optcategory").append($('<option></option>').val('').html("Please select Category"));
+                        $.each(jsonResult, function (key, value) {
+                            $("#optcategory").append($('<option></option>').val(value["ID"]).html(value["Name"]));
+                        });
+
+                    }
+                });
+
+            }
+            );
+
+        function uploadImage(registrationId, callback) {
+            if (filePicker.files[0]) {
+                uploadBlobOrFile(registrationId, filePicker.files[0], filePicker.value, callback);
+            }
+            else{
+                callback();
+            }
+        }
+
+        function validateInput(data)
+        {
+            Error = 0;
+            if ($('#txtfname').val() == '') {
+                Error = 1;
+                $('#txtfname').addClass('quadrat');
+            }
+            else
+            {
+                data.FName = $('#txtfname').val();
+                $('#txtfname').removeClass('quadrat');
+            }
+
+            if ($('#txtlname').val() == '') {
+                Error = 2;
+                $('#txtlname').addClass('quadrat');
+            }
+            else {
+                data.LName = $('#txtlname').val();
+                $('#txtlname').removeClass('quadrat');
+            }
+
+            if ($('#ddlDD').val() == '') {
+                Error = 3;
+                $('#ddlDD').addClass('quadrat');
+            }
+            else {
+                data.DOBDD = $('#ddlDD').val();
+                $('#ddlDD').removeClass('quadrat');
+            }
+
+            if ($('#ddlMM').val() == '') {
+                Error = 4;
+                $('#ddlMM').addClass('quadrat');
+            }
+            else {
+                data.DOBMM = $('#ddlMM').val();
+                $('#ddlMM').removeClass('quadrat');
+            }
+
+            if ($('#ddlYY').val() == '') {
+                Error = 5;
+                $('#ddlYY').addClass('quadrat');
+            }
+            else {
+                data.DOBYY = $('#ddlYY').val();
+                $('#ddlYY').removeClass('quadrat');
+            }
+
+            if ($('#optcourseappliedfor').val() == '') {
+                Error = 6;
+                $('#optcourseappliedfor').addClass('quadrat');
+            }
+            else {
+                data.CourseAppliedFor = $('#optcourseappliedfor').val();
+                $('#optcourseappliedfor').removeClass('quadrat');
+            }
+
+            if ($('#txtEmail').val() == '') {
+                Error = 7;
+                $('#txtEmail').addClass('quadrat');
+            }
+            else {
+                if ($('#txtCEmail').val() == '') {
+                    Error = 8;
+                    $('#txtCEmail').addClass('quadrat');
+                }
+                else {
+                    if ($('#txtEmail').val() == $('#txtCEmail').val()) {
+                        data.Email = $('#txtEmail').val();
+                        $('#txtEmail').removeClass('quadrat');
+                        $('#txtCEmail').removeClass('quadrat');
+                    }
+                    else {
+                        Error = 78;
+                        notifyMsg('Email confirmation failed.', 'error', function () { $('#txtCEmail').focus(); });
+                    }                    
+                }
+            }      
+
+            if ($('#txtMobileNo').val() == '') {
+                Error = 9;
+                $('#txtMobileNo').addClass('quadrat');
+            }
+            else {
+                data.MobileNumber = $('#txtMobileNo').val();
+                $('#txtMobileNo').removeClass('quadrat');
+            }
+
+            if ($('#optcategory').val() == '') {
+                Error = 10;
+                $('#optcategory').addClass('quadrat');
+            }
+            else {
+                data.Category = $('#optcategory').val();
+                $('#optcategory').removeClass('quadrat');
+            }
+
+            if ($('#txtNationality').val() == '') {
+                Error = 11;
+                $('#txtNationality').addClass('quadrat');
+            }
+            else {
+                data.Nationality = $('#txtNationality').val();
+                $('#txtNationality').removeClass('quadrat');
+            }
+
+            if ($('#txtAddress').val() == '') {
+                Error = 12;
+                $('#txtAddress').addClass('quadrat');
+            }
+            else {
+                data.Address = $('#txtAddress').val();
+                $('#txtAddress').removeClass('quadrat');
+            }
+
+            if ($('#txtDistrict').val() == '') {
+                Error = 13;
+                $('#txtDistrict').addClass('quadrat');
+            }
+            else {
+                data.District = $('#txtDistrict').val();
+                $('#txtDistrict').removeClass('quadrat');
+            }                       
+
+            if ($('#txtPincode').val() == '') {
+                Error = 14;
+                $('#txtPincode').addClass('quadrat');
+            }
+            else {
+                data.Pincode = $('#txtPincode').val();
+                $('#txtPincode').removeClass('quadrat');
+            }
+
+            if ($('#txtDurationInUP').val() == '') {
+                Error = 15;
+                $('#txtDurationInUP').addClass('quadrat');
+            }
+            else {
+                data.DurationInUP = $('#txtDurationInUP').val();
+                $('#txtDurationInUP').removeClass('quadrat');
+            }
+
+            if ($('#txtMotherName').val() == '') {
+                Error = 16;
+                $('#txtMotherName').addClass('quadrat');
+            }
+            else {
+                data.MotherName = $('#txtMotherName').val();
+                $('#txtMotherName').removeClass('quadrat');
+            }
+
+            if ($('#txtFatherName').val() == '') {
+                Error = 17;
+                $('#txtFatherName').addClass('quadrat');
+            }
+            else {
+                data.FatherName = $('#txtFatherName').val();
+                $('#txtFatherName').removeClass('quadrat');
+            }
+
+            if ($('#txtMOccupation').val() == '') {
+                Error = 18;
+                $('#txtMOccupation').addClass('quadrat');
+            }
+            else {
+                data.MotherOccupation = $('#txtMOccupation').val();
+                $('#txtMOccupation').removeClass('quadrat');
+            }
+
+            if ($('#txtFOccupation').val() == '') {
+                Error = 19;
+                $('#txtFOccupation').addClass('quadrat');
+            }
+            else {
+                data.FatherOccupation = $('#txtFOccupation').val();
+                $('#txtFOccupation').removeClass('quadrat');
+            }
+
+            if ($('#txtMIncome').val() == '') {
+                Error = 20;
+                $('#txtMIncome').addClass('quadrat');
+            }
+            else {
+                data.MotherIncome = $('#txtMIncome').val();
+                $('#txtMIncome').removeClass('quadrat');
+            }
+
+            if ($('#txtFIncome').val() == '') {
+                Error = 21;
+                $('#txtFIncome').addClass('quadrat');
+            }
+            else {
+                data.FatherIncome = $('#txtFIncome').val();
+                $('#txtFIncome').removeClass('quadrat');
+            }
+
+            if ($('#txtMMobile').val() == '') {
+                Error = 22;
+                $('#txtMMobile').addClass('quadrat');
+            }
+            else {
+                data.MotherMobile = $('#txtMMobile').val();
+                $('#txtMMobile').removeClass('quadrat');
+            }
+
+            if ($('#txtFMobile').val() == '') {
+                Error = 23;
+                $('#txtFMobile').addClass('quadrat');
+            }
+            else {
+                data.FatherMobile = $('#txtFMobile').val();
+                $('#txtFMobile').removeClass('quadrat');
+            }
+
+            if ($('#txtCast').val() == '') {
+                Error = 24;
+                $('#txtCast').addClass('quadrat');
+            }
+            else {
+                data.Cast = $('#txtCast').val();
+                $('#txtCast').removeClass('quadrat');
+            }
+
+            if ($('#txtPhoneNumber').val() == '') {
+                Error = 25;
+                $('#txtPhoneNumber').addClass('quadrat');
+            }
+            else {
+                data.PhoneNumber = $('#txtPhoneNumber').val();
+                $('#txtPhoneNumber').removeClass('quadrat');
+            }
+
+            if ($('#ddlReligion').val() == '') {
+                Error = 26;
+                $('#ddlReligion').addClass('quadrat');
+            }
+            else {
+                data.Religion = $('#ddlReligion').val();
+                $('#ddlReligion').removeClass('quadrat');
+            }
+
+            if (Error==0)
+                return true;
+            else {                
+                return false;
+            }
+        }
+
+        function setValue(data) {
+            $('#txtfname').val(data.FirstName);
+            $('#txtlname').val(data.LastName);
+            $('#ddlDD').val(data.DOB.split('-')[0]);
+            $('#ddlMM').val(data.DOB.split('-')[1]);
+            $('#ddlYY').val(data.DOB.split('-')[2]);
+            $('#optcourseappliedfor').val(data.CourseId);
+            $('#txtEmail').val(data.Email);
+            $('#txtMobileNo').val(data.MobileNumber);
+            $('#optcategory').val(data.CategoryID);
+            $('#txtNationality').val(data.Nationality);
+            $('#txtAddress').val(data.AddressLine1);
+            $('#txtDistrict').val(data.AddressLine2);
+            $('#txtPincode').val(data.Pincode);
+            $('#txtDurationInUP').val(data.Duration_in_UP);
+            $('#txtMotherName').val(data.MotherName);
+            $('#txtFatherName').val(data.FatherName);
+            $('#txtMOccupation').val(data.MotherOccupation);
+            $('#txtFOccupation').val(data.FatherOccupation);
+            $('#txtMIncome').val(data.MotherIncome);
+            $('#txtFIncome').val(data.FatherIncome);
+            $('#txtMMobile').val(data.MotherMobileNumber);
+            $('#txtFMobile').val(data.FatherMobileNumber);
+            $('#txtCast').val(data.Cast);
+            $('#txtPhoneNumber').val(data.PhoneNumber);
+            $('#ddlReligion').val(data.Religion)
+            var $radios = $('input:radio[name=rdominority]');
+            $radios.filter('[value=' + data.IsMinority + ']').attr('checked', true);
+        }
+
+        function notifyMsg(message, messagetype, callback) {
+            if (messagetype == "error")
+                bgcolor = 'red';
+            else if (messagetype == 'success')
+                bgcolor = 'green';
+            else
+                bgcolor = 'yellow';
+
+            notificationdiv = '<div id="notifybox" align="center" style="position: fixed; top: -0.000304573%; width: 100%; height: auto; text-align: center; font-size: 13px; background-color: ' + bgcolor + '; padding: 1%; border: solid white; color: black; z-index: 10000014;"><a>' + message + '</a><br><br><a id="btnNotifyClose" style="color: white; background-color: black; padding: 5px 15px; margin-left: 25px; border-radius: 5px; cursor: pointer;">Close</a></div>';
+            if ($('#notifybox').html() != undefined) {
+                $('#notifybox').html(notificationdiv);
+                $('#notifybox').show();
+            }
+            else {
+                $('body').append(notificationdiv);
+            }
+            $('#btnNotifyClose').click(callback);
+            $('#btnNotifyClose').click(function () { $('#notifybox').hide(); });
+            
+        }
+
+        function redirect(url) {
+            var ua = navigator.userAgent.toLowerCase(),
+                isIE = ua.indexOf('msie') !== -1,
+                version = parseInt(ua.substr(4, 2), 10);
+
+            // Internet Explorer 8 and lower
+            if (isIE && version < 9) {
+                var link = document.createElement('a');
+                link.href = url;
+                document.body.appendChild(link);
+                link.click();
+            }
+
+                // All other browsers can use the standard window.location.href (they don't lose HTTP_REFERER like Internet Explorer 8 & lower does)
+            else {
+                window.location.href = url;
+            }
+        }
+
+        function uploadBlobOrFile(registrationId, blobOrFile, filepath, callback) {
+            event.preventDefault();
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'FileUpload.svc/Upload', true);
+
+            //xhr.setRequestHeader('Content-length', blobOrFile.size);
+
+            xhr.onload = function (e) {
+                progressBar.value = 0;
+                progressBar.textContent = progressBar.value;
+            };
+
+            // Listen to the upload progress.
+            var progressBar = document.querySelector('progress');
+            xhr.upload.onprogress = function (e) {
+                if (e.lengthComputable) {
+                    progressBar.value = (e.loaded / e.total) * 100;
+                    progressBar.textContent = progressBar.value; // Fallback.
+                }
+            };
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    //alert(xhr.responseText);
+                    UpdateUploadId((JSON.parse(xhr.responseText).d).ID, registrationId, filepath, callback);
+                }
+            };
+
+            xhr.send(blobOrFile);
+        }
+
+        function UpdateUploadId(UploadId, registrationId, filepath, callback) {
+            data = {};
+            data.RegistrationId = registrationId;
+            data.UploadId = UploadId;
+            data.FilePath = filepath;
+            $.ajax({
+                url: "CollegeService.svc/UpdateRegistration",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.d == 'Success') {
+                        callback();
+                    }
+                    else {
+                        notifyMsg('Registration data saved but error uploading the image.(' + result.d + '). Click OK to proceed further...', '', function () { redirect('form1.html'); });
+                    }
+                    
+                },
+                error: function (data) {
+                    notifyMsg('Registration data saved but error uploading the image. Click OK to proceed further...', '', function () { redirect('form1.html'); });
+                }
+            });
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <div class="wrapper row1">
+        <header id="header">
+            <!-- ################################################################################################ -->
+            <div id="logo" class="">
+                <h1><a href="index.html"><img src="images/logo.jpg" /></a></h1>
+            </div>
+
+            <nav id="mainav">
+                <center>
+                    <h2>
+                        <font color="#FFFFFF">
+                            <strong>BAIKUNTHI DEVI KANYA MAHAVIDYALAYA, AGRA<br /><br />Online Portal</strong>
+                        </font>
+                    </h2>
+                </center>
+                <a id="resp-menu" class="responsive-menu" href="#"><i class="fa fa-reorder"></i> Menu</a>
+                <ul class="menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="#">About Us</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">History</a></li>
+                            <li><a href="#">Why Us</a></li>
+                            <li><a href="#">Vision & Mission</a></li>
+                            <li><a href="#">Advisory Council</a></li>
+                            <li><a href="#">Faculty</a></li>
+                            <li><a href="#">Body Member</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Admissions</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Download Forms</a></li>
+                            <li><a href="#">Anti Ragging</a></li>
+                            <li><a href="#">Scholarship </a></li>
+                            <li><a href="#">FAQs</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Life @ Baikunthi Devi</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Campus Buzz</a></li>
+                            <li><a href="#">Photo gallery</a></li>
+                            <li><a href="#">Societies</a></li>
+                            <li><a href="#">News</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Courses</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Course Offered</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Facilities</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">General Infra</a></li>
+                            <li><a href="#">Learning Infra</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Pay Online Fee</a></li>
+                </ul>
+            </nav>
+
+        </header>
+    </div>
+
+    <div class="wrapper row3">
+        <main class="hoc container clear">
+            <form name="" method="post" action="">
+
+                <div class="content">
+                    <table border="0" cellspacing="0" cellpadding="0" style="margin:auto;" class="inner-tb">
+
+                        <tbody>
+                            <tr>
+                                <td width="13%" class="tb-r1"><strong>If you are an existing student please enter your last year's Registration Number in the box and click Fetch :</strong>
+                                <input style="width:50px;" type="text" id="txtExistingRegistrationId" />
+                                <input style="width:50px;" type="button" value="Fetch" id="btnFetchExisting" /> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                                <div class="form-head"><strong>1. Candidate's Personal Information</strong></div>
+
+
+                                <table border="0" cellspacing="0" cellpadding="0" style="margin:auto;" class="inner-tb">
+
+                                    <tbody>
+                                        <tr>
+                                            <td width="13%" class="tb-r1"><strong>First Name :</strong> </td>
+                                            <td class="tb-r1"><input name="Name" id="txtfname" placeholder="&nbsp;Candidate First Name" type="text" /></td>
+                                            <td width="13%" class="tb-r1"><strong>Last Name :</strong> </td>
+                                            <td class="tb-r1"><input name="Name" id="txtlname" placeholder="&nbsp;Candidate Last Name" type="text" /></td>
+                                            <td rowspan="7" width="22%" style="text-align:center;" class="tb-r1">
+                                                <img style="text-align:left;width:100%" src="images/icon.png" id="imgStudent"  /><p></p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="10%" class="tb-r2"><strong>DOB :</strong> </td>
+                                            <td class="tb-r2">
+                                                <label>
+
+
+
+                                                    <select id="ddlDD" align="left">
+                                                        <option value="00">DD</option>
+                                                        <option value="01">1</option>
+                                                        <option value="02">2</option>
+                                                        <option value="03">3</option>
+                                                        <option value="04">4</option>
+                                                        <option value="05">5</option>
+                                                        <option value="06">6</option>
+                                                        <option value="07">7</option>
+                                                        <option value="08">8</option>
+                                                        <option value="09">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="13">13</option>
+                                                        <option value="14">14</option>
+                                                        <option value="15">15</option>
+                                                        <option value="16">16</option>
+                                                        <option value="17">17</option>
+                                                        <option value="18">18</option>
+                                                        <option value="19">19</option>
+                                                        <option value="20">20</option>
+                                                        <option value="21">21</option>
+                                                        <option value="22">22</option>
+                                                        <option value="23">23</option>
+                                                        <option value="24">24</option>
+                                                        <option value="25">25</option>
+                                                        <option value="26">26</option>
+                                                        <option value="27">27</option>
+                                                        <option value="28">28</option>
+                                                        <option value="29">29</option>
+                                                        <option value="30">30</option>
+                                                        <option value="31">31</option>
+                                                    </select> &nbsp;
+
+
+
+                                                    <select id="ddlMM">
+                                                        <option value="00">MM</option>
+                                                        <option value="01">January</option>
+                                                        <option value="02">February</option>
+                                                        <option value="03">March</option>
+                                                        <option value="04">April</option>
+                                                        <option value="05">May</option>
+                                                        <option value="06">June</option>
+                                                        <option value="07">July</option>
+                                                        <option value="08">August</option>
+                                                        <option value="09">September</option>
+                                                        <option value="10">October</option>
+                                                        <option value="11">November</option>
+                                                        <option value="12">December</option>
+                                                    </select> &nbsp;
+
+
+
+                                                    <select id="ddlYY">
+                                                        <option value="0000">YYYY</option>
+                                                        <option value="1960">1960</option>
+                                                        <option value="1961">1961</option>
+                                                        <option value="1962">1962</option>
+                                                        <option value="1963">1963</option>
+                                                        <option value="1964">1964</option>
+                                                        <option value="1965">1965</option>
+                                                        <option value="1966">1966</option>
+                                                        <option value="1967">1967</option>
+                                                        <option value="1968">1968</option>
+                                                        <option value="1969">1969</option>
+                                                        <option value="1970">1970</option>
+                                                        <option value="1971">1971</option>
+                                                        <option value="1972">1972</option>
+                                                        <option value="1973">1973</option>
+                                                        <option value="1974">1974</option>
+                                                        <option value="1975">1975</option>
+                                                        <option value="1976">1976</option>
+                                                        <option value="1977">1977</option>
+                                                        <option value="1978">1978</option>
+                                                        <option value="1979">1979</option>
+                                                        <option value="1980">1980</option>
+                                                        <option value="1981">1981</option>
+                                                        <option value="1982">1982</option>
+                                                        <option value="1983">1983</option>
+                                                        <option value="1984">1984</option>
+                                                        <option value="1985">1985</option>
+                                                        <option value="1986">1986</option>
+                                                        <option value="1987">1987</option>
+                                                        <option value="1988">1988</option>
+                                                        <option value="1989">1989</option>
+                                                        <option value="1990">1990</option>
+                                                        <option value="1991">1991</option>
+                                                        <option value="1992">1992</option>
+                                                        <option value="1993">1993</option>
+                                                        <option value="1994">1994</option>
+                                                        <option value="1995">1995</option>
+                                                        <option value="1996">1996</option>
+                                                        <option value="1997">1997</option>
+                                                        <option value="1998">1998</option>
+                                                        <option value="1999">1999</option>
+                                                        <option value="2000">2000</option>
+                                                        <option value="2001">2001</option>
+                                                        <option value="2002">2002</option>
+                                                        <option value="2003">2003</option>
+                                                        <option value="2004">2004</option>
+                                                        <option value="2005">2005</option>
+                                                        <option value="2006">2006</option>
+                                                        <option value="2007">2007</option>
+                                                        <option value="2008">2008</option>
+                                                        <option value="2009">2009</option>
+                                                        <option value="2010">2010</option>
+                                                        <option value="2011">2011</option>
+                                                        <option value="2012">2012</option>
+                                                        <option value="2013">2013</option>
+                                                        <option value="2014">2014</option>
+                                                        <option value="2015">2015</option>
+                                                        <option value="2016">2016</option>
+                                                    </select>
+
+
+                                                </label>
+                                            </td>
+                                            <td width="10%" class="tb-r2"><strong>Course Applied for :</strong> </td>
+                                            <td class="tb-r2">
+                                                <select id="optcourseappliedfor"></select>
+                                            </td>
+                                        </tr>
+
+
+
+                                        <tr>
+                                            <td width="10%" class="tb-r1"><strong>Email I.D. :</strong> </td>
+                                            <td class="tb-r1"><input type="text" minlength="10" maxlength="10" name="" id="txtEmail" placeholder="&nbsp;Email ID" /></td>
+                                            <td width="10%" class="tb-r1"><strong>Confirm Email I.D. :</strong> </td>
+                                            <td class="tb-r1"><input type="text" minlength="10" maxlength="10" name="" id="txtCEmail" placeholder="&nbsp;Confirm Email ID" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="10%" class="tb-r2"><strong>Mobile No :</strong> </td>
+                                            <td class="tb-r2"><input type="text" minlength="10" maxlength="10" name="" id="txtMobileNo" placeholder="&nbsp;Mobile Number" /></td>
+                                            <td width="10%" class="tb-r2"><strong>Phone No :</strong> </td>
+                                            <td class="tb-r2"><input type="text" name="" id="txtPhoneNumber" placeholder="&nbsp;Phone Number" /></td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td width="10%" class="tb-r1"><strong>Category :</strong> </td>
+                                            <td class="tb-r1">
+                                                <select id="optcategory"></select>
+                                                <!--<select>
+                                        <option value="Genral">Genral</option>i
+                                        <option value="OBC">OBC</option>
+                                        <option value="Schedule CSchedule Cast"</option>
+                                    </select>-->
+                                            </td>
+                                            <td width="10%" class="tb-r1"><strong>Cast Name :</strong> </td>
+                                            <td class="tb-r1"><input type="text" name="txtCast" id="txtCast" placeholder="&nbsp;Cast Name" /></td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td width="10%" class="tb-r2"><strong>Religion :</strong> </td>
+                                            <td class="tb-r2">
+                                                <select id="ddlReligion">
+                                                    <option value="">Select</option>
+                                                    <option value="Hindu">Hindu</option>
+                                                    <option value="Islam">Islam</option>
+                                                    <option value="Sikh">Sikh</option>
+                                                </select>
+                                            </td>
+                                            <td width="10%" class="tb-r2"><strong>Nationality :</strong> </td>
+                                            <td class="tb-r2"><input type="text" id="txtNationality" placeholder="&nbsp;National" /></td>
+                                        </tr>
+
+
+
+                                        <tr>
+                                            <td width="10%" class="tb-r1"><strong>Address :</strong> </td>
+                                            <td class="tb-r1"><textarea id="txtAddress" placeholder="&nbsp;Permanent Address" name="Permanent Address" cols="" rows=""></textarea></td>
+                                            <td width="10%" class="tb-r1"> </td>
+                                            <td class="tb-r1"></td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td width="10%" class="tb-r2"><strong>District :</strong> </td>
+                                            <td class="tb-r2"><input id="txtDistrict" type="text" placeholder="&nbsp;Permanent District" /></td>
+                                            <td width="10%" class="tb-r2"> </td>
+                                            <td class="tb-r2"></td>
+                                            <td rowspan="2" class="tb-r1">
+                                                <center><input type="file" name="Package" align="left" id="filePicker" /></center>
+
+                                                <progress min="0" max="100" value="0">0% complete</progress>
+                                                <br />
+                                                <button title="upload"
+                                                        onclick="uploadImage();">
+                                                    <span>Upload</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td width="10%" class="tb-r1"><strong>Pin Code :</strong> </td>
+                                            <td class="tb-r1"><input type="text" id="txtPincode" placeholder="&nbsp;Permanent Pin Code" /></td>
+                                            <td width="10%" class="tb-r1"></td>
+                                            <td class="tb-r1"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td width="10%" class="tb-r2"><strong>Duration is UP :</strong> </td>
+                                            <td class="tb-r2"><input id="txtDurationInUP" type="text" placeholder="&nbsp;Duration in Years" /></td>
+                                            <td width="10%" class="tb-r2"><strong>Are you from minority?</strong> </td>
+                                            <td class="tb-r2">
+                                                <table>
+                                                    <tr style="margin:0">
+                                                        <td style="width:20px">
+                                                            <input type="radio" name="rdominority" value="0" checked="true" />
+                                                        </td>
+                                                        <td style="width:40px">No</td>
+                                                        <td style="width:20px">
+                                                            <input type="radio" name="rdominority" value="1" />
+                                                        </td>
+                                                        <td style="width:40px">Yes</td>
+                                                    </tr>
+                                                </table>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+
+
+
+
+
+
+
+                                <div class="form-head"><strong>2. Parents/Guardians's Information</strong></div>
+                                <table border="0" cellspacing="0" cellpadding="0" style="margin:auto;" class="inner-tb">
+                                    <tr>
+                                        <td class="tb-r1"><strong>Mother's Name:</strong> </td>
+                                        <td class="tb-r1"><input type="text" id="txtMotherName" placeholder="&nbsp;Mother's Name" /></td>
+                                        <td class="tb-r1"><strong>Father's Name:</strong></td>
+                                        <td class="tb-r1"><input type="text" id="txtFatherName" placeholder="&nbsp;Father's Name" /></td>
+
+                                    </tr>
+                                    <tr>
+
+                                        <td class="tb-r2"><strong>Mother's Occupation:</strong> </td>
+                                        <td class="tb-r2"><input type="text" id="txtMOccupation" placeholder="&nbsp;Mother's Occupation" /></td>
+                                        <td class="tb-r2"><strong>Father's Occupation:</strong></td>
+                                        <td class="tb-r2"><input type="text" id="txtFOccupation" placeholder="&nbsp;Father's Occupation" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tb-r1"><strong>Mother's Annual Income:</strong></td>
+                                        <td class="tb-r1"><input id="txtMIncome" type="text" placeholder="&nbsp;Family Annual Income" /></td>
+                                        <td class="tb-r1"><strong>Father's Annual Income:</strong></td>
+                                        <td class="tb-r1"><input id="txtFIncome" type="text" placeholder="&nbsp;Family Annual Income" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tb-r2"><strong>Mother's Mobile Number:</strong> </td>
+                                        <td class="tb-r2"><input type="text" id="txtMMobile" placeholder="&nbsp;Mother's Mobile Number" /></td>
+                                        <td class="tb-r2"><strong>Father's Mobile Number:</strong></td>
+                                        <td class="tb-r2"><input type="text" id="txtFMobile" placeholder="&nbsp;Father's Mobile Number" /></td>
+                                    </tr>
+
+                                </table>
+
+                                <div class="hoc container clear">
+                                    <table class="inner-tb" style="margin:auto;">
+                                        <tr>
+                                            <td><center><button type="reset" value="Reset" class="btn-submit" id="btnSubmit"><strong>Save and Next</strong></button></center></td>
+                                            <td><center><button type="reset" value="Reset" class="btn-submit" id="btnReset"><strong>Reset</strong></button></center></td>
+
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+
+
+
+
+                            </tr>
+
+
+
+
+
+
+                        </tbody>
+
+
+
+
+
+
+                    </table>
+
+
+
+
+
+
+                </div>
+            </form>
+            <div class="clear"></div>
+        </main>
+    </div>
+
+    <div class="wrapper">
+        <footer>
+
+            <div class="one_third first">
+                <h3>College Glory</h3>
+                Baikunthi Devi Kanya Mahavidhyalaya is affiliated to Dr. Bhim Rao Ambedkar University Agra (Formally Agra University)
+                Date of establishment of the College : 1st July 1967
+                Dates OF UGC Recognition: Under 2(f) - 13th Aug 1968 Under 12(B) - NA
+
+            </div>
+            <div class="one_third">
+                <h3>Admissions</h3>
+                <a href="#">Admission Helpline</a><hr />
+                <a href="#">Download forms</a><hr />
+                <a href="#">Anti Ragging Policy</a><hr />
+                <a href="#">Scholarships</a><hr />
+                <a href="#">FAQs</a>
+            </div>
+            <div class="one_third">
+                <h3>Contact @ Baikunthi</h3>
+                <a href="#">Contact Us</a><hr />
+                <a href="#">Career</a><hr />
+                <a href="#">Enquiry</a><hr />
+                <a href="#">Feedback</a>
+            </div>
+
+        </footer>
+
+    </div>
+    <div class="wrapper">
+        <center><p>Copyright © 2017 <a href="http://bdkmvagra.co.in/" target="_blank">www.bdkmvagra.co.in</a> Design By <a href="http://frolicworld.com/" target="_blank">Frolicworld.com</a></p></center>
+    </div>
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var touch = $('#resp-menu');
+            var menu = $('.menu');
+
+            $(touch).on('click', function (e) {
+                e.preventDefault();
+                menu.slideToggle();
+            });
+
+            $(window).resize(function () {
+                var w = $(window).width();
+                if (w > 767 && menu.is(':hidden')) {
+                    menu.removeAttr('style');
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
